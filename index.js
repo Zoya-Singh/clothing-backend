@@ -10,7 +10,7 @@ const { log } = require("console");
 
 app.use(express.json());
 app.use(cors({
-    origin: ["https://clothing-store-seven-lemon.vercel.app", "http://localhost:3000", "http://localhost:5173", "https://admin-clothing-store.vercel.app"]
+    origin: ["https://clothing-frontend.vercel.app", "http://localhost:3000", "http://localhost:5173", "https://admin-clothing-store.vercel.app"]
 }));
 
 // Database Connection with MongoDB
@@ -18,7 +18,7 @@ mongoose.connect("mongodb+srv://zoyasingh:mongoDB%401234@cluster0.7fvk6rn.mongod
 
 // API Creation
 app.get("/", (req, res) => {
-    res.redirect("https://clothing-store-seven-lemon.vercel.app");
+    res.redirect("https://clothing-frontend.vercel.app");
 });
 
 // Image Storage Engine
@@ -32,11 +32,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Serving static images
-app.use('/images', express.static('upload/images'));
+app.use('/images', (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+}, express.static('upload/images'));
 
 // Upload Endpoint for Images
 app.post("/upload", upload.single('product'), (req, res) => {
-    const imageURL = `https://clothing-store-6uv5.onrender.com/${req.file.filename}`;
+    const imageURL = `https://clothing-frontend.vercel.app/${req.file.filename}`;
     res.json({
         success: 1,
         image_url: imageURL
