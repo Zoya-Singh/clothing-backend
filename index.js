@@ -10,11 +10,16 @@ const { log } = require("console");
 
 app.use(express.json());
 app.use(cors({
-    origin: ["https://clothing-frontend.vercel.app", "http://localhost:3000", "http://localhost:5173", "https://admin-clothing-store.vercel.app"]
+    origin: [
+        "https://clothing-frontend.vercel.app",
+        "https://admin-clothing-store.vercel.app",
+        "http://localhost:3000",
+        "http://localhost:5173"
+    ]
 }));
 
 // Database Connection with MongoDB
-mongoose.connect("mongodb+srv://zoyasingh:mongoDB%401234@cluster0.7fvk6rn.mongodb.net/e-commerse");
+mongoose.connect("mongodb+srv://zoyasinghsanjiv1:abcd1234@e-commerse.vwfp3dm.mongodb.net/?retryWrites=true&w=majority&appName=E-commerse");
 
 // API Creation
 app.get("/", (req, res) => {
@@ -39,7 +44,7 @@ app.use('/images', (req, res, next) => {
 
 // Upload Endpoint for Images
 app.post("/upload", upload.single('product'), (req, res) => {
-    const imageURL = `https://clothing-frontend.vercel.app/${req.file.filename}`;
+    const imageURL = `https://clothing-store-6uv5.onrender.com/images/${req.file.filename}`;
     res.json({
         success: 1,
         image_url: imageURL
